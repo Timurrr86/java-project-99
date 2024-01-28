@@ -1,5 +1,8 @@
 .DEFAULT_GOAL := build-run
 
+backend:
+	./gradlew bootRun --args='--spring.profiles.active=dev'
+
 clean:
 	./gradlew clean
 

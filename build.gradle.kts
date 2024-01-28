@@ -26,6 +26,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("org.postgresql:postgresql")
+	runtimeOnly("com.h2database:h2:2.2.224")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
