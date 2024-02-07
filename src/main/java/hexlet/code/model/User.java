@@ -33,7 +33,7 @@ public class User {
     @Column(unique = true)
     @Email
     private String email;
-    private String password;
+    private String passwordDigest;
 
     @CreatedDate
     private LocalDate createdAt;
