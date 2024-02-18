@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.util.ModelGenerator;
+import jakarta.persistence.EntityManager;
 import net.datafaker.Faker;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,18 +30,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UsersControllerTest {
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private Faker faker;
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private ModelGenerator modelGenerator;
-
     @Autowired
     private ObjectMapper om;
+    @Autowired
+    private EntityManager entityManager;
 
     private SecurityMockMvcRequestPostProcessors.JwtRequestPostProcessor token;
 
@@ -55,13 +54,13 @@ public class UsersControllerTest {
     }
 
     @Test
-    public void testIndex() throws Exception {
+    public void testUserIndex() throws Exception {
         mockMvc.perform(get("/api/users").with(jwt()))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void testCreate() throws Exception {
+    void testUserCreate() throws Exception {
         var data = Instancio.of(modelGenerator.getUserModel())
                 .create();
 
@@ -80,9 +79,10 @@ public class UsersControllerTest {
     }
 
     @Test
-    public void testUpdate() throws Exception {
+    public void testUserUpdate() throws Exception {
+
         var data = new HashMap<>();
-        data.put("firstName", "John");
+        data.put("firstName", "Mike");
 
         var request = put("/api/users/" + testUser.getId())
                 .with(token)
@@ -93,6 +93,6 @@ public class UsersControllerTest {
                 .andExpect(status().isOk());
 
         var user = userRepository.findById(testUser.getId()).get();
-        assertThat(user.getFirstName()).isEqualTo(("John"));
+        assertThat(user.getFirstName()).isEqualTo(("Mike"));
     }
 }

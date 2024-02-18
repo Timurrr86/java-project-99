@@ -14,12 +14,12 @@ public class UserUpdateDTO {
     @Column(unique = true)
     @Email
     @NotBlank
-    private JsonNullable<String> email;
+    private String email;
     @NotBlank
-    private JsonNullable<String> firstName;
+    private String firstName;
     @NotBlank
-    private JsonNullable<String> lastName;
+    private String lastName;
 
     @Size(min = 3)
-    private JsonNullable<String> password;
+    private String password;
 }
