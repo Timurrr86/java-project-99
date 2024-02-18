@@ -4,13 +4,10 @@ import hexlet.code.repository.UserRepository;
 import hexlet.code.model.User;
 import hexlet.code.service.CustomUserDetailsService;
 import lombok.AllArgsConstructor;
-import net.datafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.stream.IntStream;
 
 @Component
 @AllArgsConstructor
@@ -28,6 +25,5 @@ public class DataInitializer implements ApplicationRunner {
         userData.setEmail(email);
         userData.setPasswordDigest("qwerty");
         userRepository.save(userData);
-
     }
 }
