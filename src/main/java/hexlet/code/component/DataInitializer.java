@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 @Component
 @AllArgsConstructor
@@ -24,6 +26,6 @@ public class DataInitializer implements ApplicationRunner {
         var userData = new User();
         userData.setEmail(email);
         userData.setPasswordDigest("qwerty");
-        userRepository.save(userData);
+        userService.createUser(userData);
     }
 }
