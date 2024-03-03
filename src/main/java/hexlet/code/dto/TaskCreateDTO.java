@@ -10,9 +10,9 @@ import lombok.Setter;
 @Setter
 public class TaskCreateDTO {
     @NotBlank
-    private String title;
+    private String name;
     private Integer index;
-    private String content;
+    private String description;
     @NotNull
     private String status;
     @JsonProperty("assignee_id")

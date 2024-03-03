@@ -49,6 +49,7 @@ public class ModelGenerator {
                 .ignore(Select.field(TaskStatus::getId))
                 .supply(Select.field(TaskStatus::getName), () -> faker.lorem().word())
                 .supply(Select.field(TaskStatus::getSlug), () -> faker.lorem().word())
+                .ignore(Select.field(TaskStatus::getCreatedAt))
                 .toModel();
     }
 }

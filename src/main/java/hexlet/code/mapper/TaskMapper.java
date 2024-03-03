@@ -1,10 +1,13 @@
 package hexlet.code.mapper;
 
+import hexlet.code.dto.TaskCreateDTO;
 import hexlet.code.dto.TaskDTO;
+import hexlet.code.dto.TaskUpdateDTO;
 import hexlet.code.model.Task;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
@@ -17,11 +20,15 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 )
 public abstract class TaskMapper {
 
-    public abstract Task map(TaskDTO dto);
+    @Mapping(target = "assignee", source = "assigneeId")
+    @Mapping(target = "taskStatus", source = "status")
+    public abstract Task map(TaskCreateDTO dto);
 
+    @Mapping(target = "assigneeId", source = "assignee.id")
+    @Mapping(target = "status", source = "taskStatus.slug")
     public abstract TaskDTO map(Task model);
 
-    public abstract void update(TaskDTO dto, @MappingTarget Task model);
+    public abstract void update(TaskUpdateDTO dto, @MappingTarget Task model);
 
 
 

@@ -1,13 +1,6 @@
 package hexlet.code.model;
 
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -40,10 +33,12 @@ public class Task {
     private String description;
 
     @ToString.Include
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
+    @JoinColumn(name = "task_status_id")
     private TaskStatus taskStatus;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
+    @JoinColumn(name = "assignee_id")
     @ToString.Include
     private User assignee;
 

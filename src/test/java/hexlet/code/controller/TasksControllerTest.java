@@ -6,6 +6,7 @@ import hexlet.code.mapper.TaskMapper;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.model.User;
 import hexlet.code.model.Task;
+import hexlet.code.util.UserUtils;
 import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.UserRepository;
@@ -52,6 +53,8 @@ public class TasksControllerTest {
     private TaskMapper taskMapper;
     @Autowired
     private EntityManager entityManager;
+    @Autowired
+    private UserUtils userUtils;
 
     private SecurityMockMvcRequestPostProcessors.JwtRequestPostProcessor token;
 
@@ -68,6 +71,7 @@ public class TasksControllerTest {
         testTaskStatus = Instancio.of(modelGenerator.getTaskStatusModel())
                 .create();
         taskStatusRepository.save(testTaskStatus);
+        testUser = userUtils.getTestUser();
         testTask.setAssignee(testUser);
         testTask.setTaskStatus(testTaskStatus);
     }
@@ -98,7 +102,7 @@ public class TasksControllerTest {
         taskRepository.save(testTask);
 
         var data = new TaskUpdateDTO();
-        data.setTitle(JsonNullable.of("testName"));
+        data.setName(JsonNullable.of("testName"));
 
         var request = put("/api/tasks/" + testTask.getId())
                 .with(token)
@@ -109,6 +113,6 @@ public class TasksControllerTest {
                 .andExpect(status().isOk());
 
         testTask = taskRepository.findById(testTask.getId()).get();
-        assertThat(testTask.getName()).isEqualTo(data.getTitle().get());
+        assertThat(testTask.getName()).isEqualTo(data.getName().get());
     }
 }

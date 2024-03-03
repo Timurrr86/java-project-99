@@ -53,6 +53,7 @@ dependencies {
 	testImplementation("org.instancio:instancio-junit:4.1.0")
 	testImplementation(platform("org.junit:junit-bom:5.10.1"))
 	testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
+	testImplementation("net.javacrumbs.json-unit:json-unit-assertj:3.2.7")
 }
 
 tasks.withType<Test> {
