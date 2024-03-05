@@ -47,9 +47,9 @@ public class TasksController {
                 .body(tasks);
     }
 
-    @PostMapping
+    @PostMapping(path = "")
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("@userUtils.isAuthenticated()")
+    //@PreAuthorize("@userUtils.isAuthenticated()")
     TaskDTO createTask(@Valid @RequestBody TaskCreateDTO dto) {
         return taskService.create(dto);
     }
@@ -62,14 +62,14 @@ public class TasksController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("@userUtils.isAuthenticated()")
+    //@PreAuthorize("@userUtils.isAuthenticated()")
     TaskDTO updateTask(@RequestBody @Valid TaskUpdateDTO dto, @PathVariable Long id) {
         return taskService.update(dto, id);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("@userUtils.isAuthenticated()")
+    //    @PreAuthorize("@userUtils.isAuthenticated()")
     void destroyTask(@PathVariable Long id) {
         taskService.delete(id);
     }
