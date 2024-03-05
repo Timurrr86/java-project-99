@@ -89,7 +89,7 @@ public class TaskStatusesControllerTest {
         taskStatusRepository.save(testTaskStatus);
 
         var data = new TaskStatusUpdateDTO();
-        data.setName(JsonNullable.of("new_name"));
+        data.setName(JsonNullable.of("postponed"));
 
         var request = put("/api/task_statuses/" + testTaskStatus.getId())
                 .with(token)
