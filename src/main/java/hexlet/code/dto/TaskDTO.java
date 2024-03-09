@@ -12,8 +12,8 @@ public class TaskDTO {
     private Long id;
 
     private int index;
-    private String name;
-    private String description;
+    private String title;
+    private String content;
     private String status;
     private LocalDate createdAt;
 

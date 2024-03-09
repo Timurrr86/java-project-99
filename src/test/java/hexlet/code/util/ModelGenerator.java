@@ -1,5 +1,6 @@
 package hexlet.code.util;
 
+import hexlet.code.model.Label;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.model.Task;
 import org.instancio.Instancio;
@@ -18,6 +19,7 @@ public class ModelGenerator {
     private Model<User> userModel;
     private Model<Task> taskModel;
     private Model<TaskStatus> taskStatusModel;
+    private Model<Label> labelModel;
 
 
     @Autowired
@@ -50,6 +52,12 @@ public class ModelGenerator {
                 .supply(Select.field(TaskStatus::getName), () -> faker.lorem().word())
                 .supply(Select.field(TaskStatus::getSlug), () -> faker.lorem().word())
                 .ignore(Select.field(TaskStatus::getCreatedAt))
+                .toModel();
+
+        labelModel = Instancio.of(Label.class)
+                .ignore(Select.field(Label::getId))
+                .ignore(Select.field(Label::getCreatedAt))
+                .supply(Select.field(Label::getName), () -> faker.text().text(3, 1000))
                 .toModel();
     }
 }
