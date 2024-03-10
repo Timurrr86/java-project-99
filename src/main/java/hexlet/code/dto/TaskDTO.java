@@ -12,8 +12,10 @@ public class TaskDTO {
     private Long id;
 
     private int index;
-    private String title;
-    private String content;
+    @JsonProperty("title")
+    private String name;
+    @JsonProperty("content")
+    private String description;
     private String status;
     private LocalDate createdAt;
 

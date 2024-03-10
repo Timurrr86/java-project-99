@@ -84,9 +84,9 @@ public class TasksControllerTest {
 
     @Test
     void testTaskCreate() throws Exception {
-        var dto = taskMapper.map(testTask);
-//        dto.setStatus(testTaskStatus.getSlug());
-//        dto.setAssigneeId(testUser.getId());
+        var dto = taskMapper.mapToCreateDTO(testTask);
+        dto.setStatus(testTaskStatus.getSlug());
+        dto.setAssigneeId(testUser.getId());
         var request = post("/api/tasks")
                 .with(token)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -100,11 +100,24 @@ public class TasksControllerTest {
     }
 
     @Test
+    public void testCreateTaskWithNotValidName() throws Exception {
+        testTask.setName("");
+        var dto = taskMapper.mapToCreateDTO(testTask);
+
+        var request = post("/api/tasks").with(jwt())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(om.writeValueAsString(dto));
+
+        mockMvc.perform(request)
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void testTaskUpdate() throws Exception {
         taskRepository.save(testTask);
 
         var data = new TaskUpdateDTO();
-        data.setTitle(JsonNullable.of("testName"));
+        data.setName(JsonNullable.of("testName"));
 
         var request = put("/api/tasks/" + testTask.getId())
                 .with(token)
@@ -115,6 +128,6 @@ public class TasksControllerTest {
                 .andExpect(status().isOk());
 
         var task = taskRepository.findById(testTask.getId()).get();
-        assertThat(task.getName()).isEqualTo(data.getTitle().get());
+        assertThat(task.getName()).isEqualTo(data.getName().get());
     }
 }

@@ -19,20 +19,15 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public abstract class TaskMapper {
-    @Mapping(target = "name", source = "title")
-    @Mapping(target = "description", source = "content")
-//    @Mapping(target = "assignee", source = "assigneeId")
-//    @Mapping(target = "taskStatus", source = "status")
+
     public abstract Task map(TaskCreateDTO dto);
 
-
-//    @Mapping(target = "assigneeId", source = "assignee.id")
-//    @Mapping(target = "status", source = "taskStatus.slug")
     public abstract TaskDTO map(Task model);
 
-    @Mapping(target = "name", source = "title")
-    @Mapping(target = "description", source = "content")
     public abstract void update(TaskUpdateDTO dto, @MappingTarget Task model);
+
+    public abstract TaskCreateDTO mapToCreateDTO(Task model);
+
 
 
 
