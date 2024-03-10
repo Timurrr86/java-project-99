@@ -7,7 +7,6 @@ import hexlet.code.model.Task;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
