@@ -3,9 +3,11 @@ package hexlet.code.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.dto.TaskUpdateDTO;
 import hexlet.code.mapper.TaskMapper;
+import hexlet.code.model.Label;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.model.User;
 import hexlet.code.model.Task;
+import hexlet.code.repository.LabelRepository;
 import hexlet.code.util.UserUtils;
 import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.TaskStatusRepository;
@@ -23,6 +25,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -46,6 +50,8 @@ public class TasksControllerTest {
     @Autowired
     private TaskStatusRepository taskStatusRepository;
     @Autowired
+    private LabelRepository labelRepository;
+    @Autowired
     private ModelGenerator modelGenerator;
     @Autowired
     private ObjectMapper om;
@@ -61,6 +67,7 @@ public class TasksControllerTest {
     private User testUser;
     private Task testTask;
     private TaskStatus testTaskStatus;
+    private Label testLabel;
 
     @BeforeEach
     public void setUp() {
@@ -70,10 +77,14 @@ public class TasksControllerTest {
                 .create();
         testTaskStatus = Instancio.of(modelGenerator.getTaskStatusModel())
                 .create();
+        testLabel = Instancio.of(modelGenerator.getLabelModel())
+                .create();
+        labelRepository.save(testLabel);
         taskStatusRepository.save(testTaskStatus);
         testUser = userUtils.getTestUser();
         testTask.setAssignee(testUser);
         testTask.setTaskStatus(testTaskStatus);
+        testTask.setLabels(Set.of(testLabel));
     }
 
     @Test
@@ -101,7 +112,7 @@ public class TasksControllerTest {
 
     @Test
     public void testTaskUpdate() throws Exception {
-        taskRepository.save(testTask);
+//        taskRepository.save(testTask);
 
         var data = new TaskUpdateDTO();
         data.setName(JsonNullable.of("testName"));
