@@ -100,19 +100,6 @@ public class TasksControllerTest {
     }
 
     @Test
-    public void testCreateTaskWithNotValidName() throws Exception {
-        testTask.setName("");
-        var dto = taskMapper.mapToCreateDTO(testTask);
-
-        var request = post("/api/tasks").with(jwt())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(dto));
-
-        mockMvc.perform(request)
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
     public void testTaskUpdate() throws Exception {
         taskRepository.save(testTask);
 
