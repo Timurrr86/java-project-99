@@ -61,15 +61,17 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
-sentry {
-	// Generates a JVM (Java, Kotlin, etc.) source bundle and uploads your source code to Sentry.
-	// This enables source context, allowing you to see your source
-	// code as part of your stack traces in Sentry.
-	includeSourceContext = true
+if (System.getenv("APP_ENV") == "production") {
+	sentry {
+		// Generates a JVM (Java, Kotlin, etc.) source bundle and uploads your source code to Sentry.
+		// This enables source context, allowing you to see your source
+		// code as part of your stack traces in Sentry.
+		includeSourceContext = true
 
-	org = "home-llm"
-	projectName = "taskmanager"
-	authToken = System.getenv("SENTRY_AUTH_TOKEN")
+		org = "home-llm"
+		projectName = "taskmanager"
+		authToken = System.getenv("SENTRY_AUTH_TOKEN")
+	}
 }
 
 tasks.jacocoTestReport {
