@@ -7,6 +7,7 @@ import hexlet.code.util.ModelGenerator;
 import jakarta.persistence.EntityManager;
 import net.datafaker.Faker;
 import org.instancio.Instancio;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

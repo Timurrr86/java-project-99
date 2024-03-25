@@ -72,6 +72,7 @@ public class TasksControllerTest {
     @BeforeEach
     public void setUp() {
         testUser = Instancio.of(modelGenerator.getUserModel()).create();
+        userRepository.save(testUser);
         token = jwt().jwt(builder -> builder.subject("hexlet@example.com"));
         testTask = Instancio.of(modelGenerator.getTaskModel())
                 .create();
@@ -81,10 +82,11 @@ public class TasksControllerTest {
                 .create();
         labelRepository.save(testLabel);
         taskStatusRepository.save(testTaskStatus);
-        testUser = userUtils.getTestUser();
+//        testUser = userUtils.getTestUser();
         testTask.setAssignee(testUser);
         testTask.setTaskStatus(testTaskStatus);
         testTask.setLabels(Set.of(testLabel));
+//        taskRepository.save(testTask);
     }
 
     @Test
@@ -112,7 +114,7 @@ public class TasksControllerTest {
 
     @Test
     public void testTaskUpdate() throws Exception {
-//        taskRepository.save(testTask);
+        taskRepository.save(testTask);
 
         var data = new TaskUpdateDTO();
         data.setName(JsonNullable.of("testName"));
