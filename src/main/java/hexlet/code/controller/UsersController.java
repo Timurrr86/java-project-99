@@ -50,7 +50,7 @@ public class UsersController {
 
     @PutMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
-    UserDTO update(@RequestBody UserUpdateDTO userData, @PathVariable Long id) {
+    UserDTO update(@RequestBody @Valid UserUpdateDTO userData, @PathVariable Long id) {
         var user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not Found"));
         userMapper.update(userData, user);
