@@ -44,7 +44,6 @@ public class LabelsController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("@userUtils.isAuthenticated()")
     LabelDTO createLabel(@Valid @RequestBody LabelCreateDTO dto) {
         return labelService.create(dto);
     }
@@ -59,7 +58,6 @@ public class LabelsController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("@userUtils.isAuthenticated()")
     LabelDTO updateLabel(@RequestBody @Valid LabelUpdateDTO dto, @PathVariable Long id) {
         var label = labelService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Label with id " + id + " not found"));
