@@ -82,11 +82,9 @@ public class TasksControllerTest {
                 .create();
         labelRepository.save(testLabel);
         taskStatusRepository.save(testTaskStatus);
-//        testUser = userUtils.getTestUser();
         testTask.setAssignee(testUser);
         testTask.setTaskStatus(testTaskStatus);
         testTask.setLabels(Set.of(testLabel));
-//        taskRepository.save(testTask);
     }
 
     @Test
