@@ -7,7 +7,7 @@ import hexlet.code.exception.ResourceNotFoundException;
 import hexlet.code.mapper.UserMapper;
 import hexlet.code.repository.UserRepository;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,12 +24,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@AllArgsConstructor
 public class UsersController {
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private UserMapper userMapper;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     @GetMapping("/users")
     ResponseEntity<List<UserDTO>> index() {

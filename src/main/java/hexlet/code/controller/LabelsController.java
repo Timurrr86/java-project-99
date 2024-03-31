@@ -7,9 +7,8 @@ import hexlet.code.exception.ResourceNotFoundException;
 import hexlet.code.mapper.LabelMapper;
 import hexlet.code.repository.LabelRepository;
 import hexlet.code.service.LabelService;
-import hexlet.code.util.UserUtils;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,15 +26,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/labels")
+@AllArgsConstructor
 public class LabelsController {
-    @Autowired
-    private LabelService labelService;
-    @Autowired
-    private LabelMapper labelMapper;
-    @Autowired
-    private LabelRepository labelRepository;
-    @Autowired
-    private UserUtils userUtils;
+    private final LabelService labelService;
+    private final LabelMapper labelMapper;
+    private final LabelRepository labelRepository;
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
