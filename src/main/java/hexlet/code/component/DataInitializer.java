@@ -7,7 +7,7 @@ import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.model.User;
 import hexlet.code.service.CustomUserDetailsService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+removed import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -18,15 +18,9 @@ import java.util.Map;
 @Component
 @AllArgsConstructor
 public class DataInitializer implements ApplicationRunner {
-
-    @Autowired
     private final CustomUserDetailsService userService;
-
-    @Autowired
-    private TaskStatusRepository taskStatusRepository;
-
-    @Autowired
-    private LabelRepository labelRepository;
+    private final TaskStatusRepository taskStatusRepository;
+    private final LabelRepository labelRepository;
 
     private final Map<String, String> taskStatuses = Map.of(
             "Draft", "draft",
