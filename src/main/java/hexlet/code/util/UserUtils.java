@@ -23,7 +23,8 @@ public class UserUtils {
             return null;
         }
         var email = authentication.getName();
-        return userRepository.findByEmail(email).get();
+        return userRepository.findByEmail(email).
+                 orElseThrow(() -> new RuntimeException("User doesn't exist"));
     }
 
     public User getTestUser() {
@@ -32,7 +33,8 @@ public class UserUtils {
     }
 
     public boolean isAssignee(long id) {
-        var testTaskAssigneeEmail = taskRepository.findById(id).get().getAssignee().getEmail();
+        var testTaskAssigneeEmail = taskRepository.findById(id).
+                orElseThrow(() -> new RuntimeException("User isn't assignee"));;
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         return testTaskAssigneeEmail.equals(authentication.getName());
     }
@@ -40,7 +42,8 @@ public class UserUtils {
     public boolean isCurrentUser(long id) {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         var currentUser = getCurrentUser();
-        return currentUser != null && currentUser.getEmail().equals(userRepository.findById(id).get().getUsername());
+        return currentUser != null && currentUser.getEmail().equals(userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User doesn't exist")));
     }
 
     public boolean isAuthenticated() {
