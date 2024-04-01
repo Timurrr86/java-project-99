@@ -73,7 +73,6 @@ public class UsersController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("@userUtils.isCurrentUser")
     public void deleteUser(@PathVariable long id) {
-        userRepository.findById(id).orElseThrow();
         userRepository.deleteById(id);
     }
 }
