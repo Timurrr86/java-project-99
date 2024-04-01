@@ -77,6 +77,7 @@ public class UsersControllerTest {
         assertNotNull(user);
         assertThat(user.getFirstName()).isEqualTo(data.getFirstName());
         assertThat(user.getLastName()).isEqualTo(data.getLastName());
+        assertThat(user.getCreatedAt()).isEqualTo(data.getCreatedAt());
     }
 
     @Test
