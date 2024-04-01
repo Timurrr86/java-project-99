@@ -7,7 +7,6 @@ import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.model.User;
 import hexlet.code.service.CustomUserDetailsService;
 import lombok.AllArgsConstructor;
-removed import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
