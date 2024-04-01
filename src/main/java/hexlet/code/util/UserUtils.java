@@ -34,7 +34,7 @@ public class UserUtils {
 
     public boolean isAssignee(long id) {
         var testTaskAssigneeEmail = taskRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("User isn't assignee"));;
+                orElseThrow(() -> new RuntimeException("User isn't assignee"));
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         return testTaskAssigneeEmail.equals(authentication.getName());
     }
