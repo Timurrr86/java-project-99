@@ -53,7 +53,7 @@ public class UsersController {
         return userService.findById(id);
     }
 
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping("/users/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("@userUtils.isCurrentUser")
     public void deleteUser(@PathVariable long id) {
