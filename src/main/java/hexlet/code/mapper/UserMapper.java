@@ -30,7 +30,6 @@ public abstract class UserMapper {
 
     public abstract User map(UserUpdateDTO model);
 
-    @Mapping(target = "password", ignore = true)
     public abstract UserDTO map(User model);
 
     public abstract void update(UserUpdateDTO update, @MappingTarget User destination);

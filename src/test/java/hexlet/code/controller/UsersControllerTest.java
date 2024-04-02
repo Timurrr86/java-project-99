@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
@@ -69,15 +70,26 @@ public class UsersControllerTest {
                 .with(token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(om.writeValueAsString(data));
-        mockMvc.perform(request)
-                .andExpect(status().isCreated());
 
-        var user = userRepository.findByEmail(data.getEmail()).get();
+        var result = mockMvc.perform(request)
+                .andExpect(status().isCreated())
+                .andReturn();
 
-        assertNotNull(user);
-        assertThat(user.getFirstName()).isEqualTo(data.getFirstName());
-        assertThat(user.getLastName()).isEqualTo(data.getLastName());
-        assertThat(user.getCreatedAt()).isEqualTo(data.getCreatedAt());
+        var body = result.getResponse().getContentAsString();
+
+        var id = om.readTree(body).get("id").asLong();
+        assertThat(userRepository.findById(id)).isPresent();
+
+        var addedUser = userRepository.findById(id).orElse(data);
+
+        assertThatJson(body).and(
+                json -> json.node("id").isEqualTo(addedUser.getId()),
+                json -> json.node("firstName").isEqualTo(addedUser.getFirstName()),
+                json -> json.node("lastName").isEqualTo(addedUser.getLastName()),
+                json -> json.node("email").isEqualTo(addedUser.getEmail()),
+                json -> json.node("createdAt").isEqualTo(addedUser.getCreatedAt())
+        );
+
     }
 
     @Test
