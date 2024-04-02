@@ -4,11 +4,12 @@ import hexlet.code.dto.TaskCreateDTO;
 import hexlet.code.dto.TaskDTO;
 import hexlet.code.dto.TaskUpdateDTO;
 import hexlet.code.model.Task;
-import org.mapstruct.ReportingPolicy;
-import org.mapstruct.MappingTarget;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.ReportingPolicy;
 
 
 @Mapper(
@@ -19,15 +20,24 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 )
 public abstract class TaskMapper {
 
+    @Mapping(target = "taskStatus", source = "status")
+    @Mapping(target = "assignee", source = "assigneeId")
+    @Mapping(target = "labels", source = "taskLabelIds")
     public abstract Task map(TaskCreateDTO dto);
 
+    @Mapping(target = "status", source = "taskStatus.slug")
+    @Mapping(target = "assigneeId", source = "assignee.id")
+    @Mapping(target = "taskLabelIds", source = "labels")
     public abstract TaskDTO map(Task model);
 
+    @Mapping(target = "taskStatus", source = "status")
+    @Mapping(target = "assignee", source = "assigneeId")
+    @Mapping(target = "labels", source = "taskLabelIds")
     public abstract void update(TaskUpdateDTO dto, @MappingTarget Task model);
 
+    @Mapping(target = "status", source = "taskStatus.slug")
+    @Mapping(target = "assigneeId", source = "assignee.id")
+    @Mapping(target = "taskLabelIds", source = "labels")
     public abstract TaskCreateDTO mapToCreateDTO(Task model);
-
-
-
 
 }
