@@ -38,15 +38,12 @@ public class TaskStatusService {
     public TaskStatusDTO updateTaskStatus(Long id, TaskStatusUpdateDTO taskStatusData) {
         var taskStatus = taskStatusRepository.findById(id)
                 .orElseThrow();
-
         taskStatusMapper.update(taskStatusData, taskStatus);
         taskStatusRepository.save(taskStatus);
         return taskStatusMapper.map(taskStatus);
     }
 
     public void deleteTaskStatus(Long id) {
-        taskStatusRepository.findById(id)
-                .orElseThrow();
         taskStatusRepository.deleteById(id);
     }
 }
