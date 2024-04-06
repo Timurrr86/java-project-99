@@ -3,6 +3,7 @@ package hexlet.code.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -12,15 +13,16 @@ import java.util.Set;
 public class TaskDTO {
     private Long id;
 
-    private int index;
+    private JsonNullable<Integer> index;
     @JsonProperty("title")
-    private String name;
+    private JsonNullable<String> name;
     @JsonProperty("content")
-    private String description;
-    private String status;
+    private JsonNullable<String> description;
+
+    private JsonNullable<String> status;
     private LocalDate createdAt;
 
     @JsonProperty("assignee_id")
-    private Long assigneeId;
-    private Set<Long> taskLabelIds;
+    private JsonNullable<Long> assigneeId;
+    private JsonNullable<Set<Long>> taskLabelIds;
 }
