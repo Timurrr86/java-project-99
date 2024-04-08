@@ -8,6 +8,7 @@ import hexlet.code.util.ModelGenerator;
 import jakarta.persistence.EntityManager;
 import net.datafaker.Faker;
 import org.instancio.Instancio;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -61,6 +62,24 @@ public class UsersControllerTest {
     }
 
     @Test
+    public void testShow() throws Exception {
+        var request = get("/api/users/{id}", testUser.getId()).with(token);
+        var result = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andReturn();
+        var body = result.getResponse().getContentAsString();
+        assertThatJson(body).and(
+                v -> v.node("firstName").isEqualTo(testUser.getFirstName()),
+                v -> v.node("lastName").isEqualTo(testUser.getLastName()),
+                v -> v.node("email").isEqualTo(testUser.getEmail()));
+    }
+
+    @AfterEach
+    public void clear() {
+        userRepository.deleteAll();
+    }
+
+    @Test
     void testUserCreate() throws Exception {
         var data = Instancio.of(modelGenerator.getUserModel())
                 .create();
@@ -88,7 +107,6 @@ public class UsersControllerTest {
                 json -> json.node("email").isEqualTo(addedUser.getEmail()),
                 json -> json.node("createdAt").isEqualTo(addedUser.getCreatedAt())
         );
-
     }
 
     @Test
@@ -115,5 +133,15 @@ public class UsersControllerTest {
         var request = delete("/api/users/{id}", testUser.getId());
         mockMvc.perform(request)
                 .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void testDestroyWithWrongUser() throws Exception {
+        userRepository.save(testUser);
+        var testUser1 = Instancio.of(modelGenerator.getUserModel()).create();
+        userRepository.save(testUser1);
+        var request = delete("/api/users/{id}", testUser1.getId()).with(token);
+        mockMvc.perform(request)
+                .andExpect(status().isForbidden());
     }
 }
