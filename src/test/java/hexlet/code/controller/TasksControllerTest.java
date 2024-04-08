@@ -107,7 +107,6 @@ public class TasksControllerTest {
     @Test
     public void testTaskShow() throws Exception {
         taskRepository.save(testTask);
-
         var request = get("/api/tasks/" + testTask.getId()).with(jwt());
         var result = mockMvc.perform(request)
                 .andExpect(status().isOk())
