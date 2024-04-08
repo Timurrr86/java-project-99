@@ -18,7 +18,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -48,6 +50,6 @@ public class TaskStatus implements BaseEntity {
     private LocalDate createdAt;
 
     @OneToMany(mappedBy = "taskStatus", cascade = CascadeType.MERGE)
-    private List<Task> tasks = new ArrayList<>();
+    private Set<Task> tasks = new HashSet<>();
 
 }
