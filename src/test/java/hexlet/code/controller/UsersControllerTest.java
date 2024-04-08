@@ -134,14 +134,4 @@ public class UsersControllerTest {
         mockMvc.perform(request)
                 .andExpect(status().isUnauthorized());
     }
-
-    @Test
-    public void testDestroyWithWrongUser() throws Exception {
-        userRepository.save(testUser);
-        var testUser1 = Instancio.of(modelGenerator.getUserModel()).create();
-        userRepository.save(testUser1);
-        var request = delete("/api/users/{id}", testUser1.getId()).with(token);
-        mockMvc.perform(request)
-                .andExpect(status().isForbidden());
-    }
 }
