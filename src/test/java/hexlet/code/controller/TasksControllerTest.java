@@ -16,6 +16,7 @@ import hexlet.code.util.ModelGenerator;
 import jakarta.persistence.EntityManager;
 import net.datafaker.Faker;
 import org.instancio.Instancio;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -28,12 +29,14 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Set;
 
+import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -87,10 +90,32 @@ public class TasksControllerTest {
         testTask.setLabels(Set.of(testLabel));
     }
 
+    @AfterEach
+    public void clear() {
+        taskRepository.deleteAll();
+        labelRepository.deleteAll();
+        taskStatusRepository.deleteAll();
+        userRepository.deleteAll();
+    }
+
     @Test
     public void testTaskIndex() throws Exception {
         mockMvc.perform(get("/api/tasks").with(jwt()))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testTaskShow() throws Exception {
+        taskRepository.save(testTask);
+
+        var request = get("/api/tasks/" + testTask.getId()).with(jwt());
+        var result = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andReturn();
+        var body = result.getResponse().getContentAsString();
+        assertThatJson(body).and(
+                v -> v.node("title").isEqualTo(testTask.getName()),
+                v -> v.node("content").isEqualTo(testTask.getDescription()));
     }
 
     @Test
@@ -127,5 +152,16 @@ public class TasksControllerTest {
 
         var task = taskRepository.findById(testTask.getId()).get();
         assertThat(task.getName()).isEqualTo(data.getName().get());
+    }
+
+    @Test
+    public void testTaskDestroy() throws Exception {
+        taskRepository.save(testTask);
+        var request = delete("/api/tasks/{id}", testTask.getId())
+                .with(token);
+        mockMvc.perform(request)
+                .andExpect(status().isNoContent());
+
+        assertThat(taskRepository.existsById(testTask.getId())).isEqualTo(false);
     }
 }
