@@ -72,13 +72,7 @@ public abstract class TaskMapper {
     }
 
     public Set<Label> toEntity(Set<Long> labelIds) {
-        if (labelIds == null) {
-            return null;
-        }
-        return labelIds.stream()
-                .map(labelId -> labelRepository.findById(labelId)
-                        .orElseThrow())
-                .collect(Collectors.toSet());
+        return labelRepository.findByIdIn(labelIds);
     }
 
     public Set<Long> toDto(Set<Label> labels) {
