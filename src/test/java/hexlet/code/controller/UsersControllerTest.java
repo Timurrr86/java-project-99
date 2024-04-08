@@ -134,4 +134,16 @@ public class UsersControllerTest {
         mockMvc.perform(request)
                 .andExpect(status().isUnauthorized());
     }
+
+    @Test
+    public void testUserDestroy() throws Exception {
+        var jwt = jwt().jwt(builder -> builder.subject(testUser.getEmail()));
+        var request = delete("/api/users/{id}", testUser.getId()).with(jwt);
+        mockMvc.perform(request)
+                .andExpect(status().isNoContent());
+
+        var user = userRepository.findById(testUser.getId()).orElse(null);
+        assertThat(user).isNull();
+    }
+
 }
