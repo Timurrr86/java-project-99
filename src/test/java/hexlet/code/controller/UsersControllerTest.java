@@ -55,6 +55,11 @@ public class UsersControllerTest {
         userRepository.save(testUser);
     }
 
+    @AfterEach
+    public void clear() {
+        userRepository.deleteAll();
+    }
+
     @Test
     public void testUserIndex() throws Exception {
         mockMvc.perform(get("/api/users").with(jwt()))
@@ -72,11 +77,6 @@ public class UsersControllerTest {
                 v -> v.node("firstName").isEqualTo(testUser.getFirstName()),
                 v -> v.node("lastName").isEqualTo(testUser.getLastName()),
                 v -> v.node("email").isEqualTo(testUser.getEmail()));
-    }
-
-    @AfterEach
-    public void clear() {
-        userRepository.deleteAll();
     }
 
     @Test
