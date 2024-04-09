@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/login")
 @AllArgsConstructor
 public class AuthenticationController {
     private final JWTUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
 
-    @PostMapping("/login")
+    @PostMapping("")
     public String create(@RequestBody AuthRequest authRequest) {
         var authentication = new UsernamePasswordAuthenticationToken(
                 authRequest.getUsername(), authRequest.getPassword());
