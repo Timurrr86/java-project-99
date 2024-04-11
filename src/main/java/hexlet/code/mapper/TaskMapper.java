@@ -66,11 +66,6 @@ public abstract class TaskMapper {
                 .orElseThrow();
     }
 
-    public User toEntity(JsonNullable<Long> assigneeId) {
-        return userRepository.findById(assigneeId.get())
-                .orElseThrow();
-    }
-
     public Set<Label> toEntity(Set<Long> labelIds) {
         return labelRepository.findByIdIn(labelIds);
     }
